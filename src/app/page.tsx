@@ -1,17 +1,28 @@
-import Image from 'next/image';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <div className='flex w-full justify-start'>
-        <Image
-          src='/slowtunes-logo.svg'
-          alt='SlowTunes Logo'
-          className='invert'
-          width={200}
-          height={28.3}
-          priority
-        />
+    <main className='flex min-h-screen items-center'>
+      <div className='flex-1 space-y-4 p-8 pt-6'>
+        <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+          <Card className='md:col-span-2 lg:col-start-2'>
+            <CardHeader>
+              <CardTitle>SlowTunes</CardTitle>
+              <CardDescription>
+                Generate slowed and reverb music with ease
+              </CardDescription>
+            </CardHeader>
+            <CardContent></CardContent>
+            <CardFooter>Test</CardFooter>
+          </Card>
+        </div>
       </div>
     </main>
   );
