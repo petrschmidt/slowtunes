@@ -45,7 +45,7 @@ const ModuleWrapper = ({ children }: ModuleWrapperProps) => {
           'The FFmpeg library has been successfully initialized; you can now fully use the app!',
       });
     }
-  }, [ffmpegContext.loaded]);
+  }, [ffmpegContext.loaded, toast]);
 
   return (
     <Card className='max-w-2xl bg-white/65 shadow-2xl shadow-black/10 backdrop-blur'>
