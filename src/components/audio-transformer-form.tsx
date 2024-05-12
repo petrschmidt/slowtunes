@@ -21,6 +21,7 @@ import { forwardRef, ReactNode } from 'react';
 import { FormSliderFieldItem } from '@/components/form-slider-field-item';
 import { SliderConfig } from '@/types/form';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 const DEFAULT_VALUES = {
   applySlowdown: true,
@@ -71,6 +72,7 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
             </FormItem>
           )}
         />
+        <Separator />
         {SLIDER_FIELDS.map(({ name, ...sliderFieldItemProps }) => (
           <FormField
             key={name}
