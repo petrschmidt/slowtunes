@@ -62,10 +62,14 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
         <FormField
           name='file'
           render={({ field }) => (
-            <FormItem>
+            <FormItem className='[&_*]:hover:cursor-pointer'>
               <FormLabel>Audio File</FormLabel>
               <FormControl>
-                <Input type='file' {...field} />
+                <Input
+                  type='file'
+                  className='transition hover:border-primary'
+                  {...field}
+                />
               </FormControl>
               <FormDescription />
               <FormMessage />
