@@ -10,6 +10,6 @@ SlowTunes is an intuitive app designed to effortlessly generate slowed and rever
 
 - **Easy Upload**: Upload your audio files with ease.
 - **Adjustable Speed**: Control the rate of slowing down a song with a simple percentage slider.
-- **Reverb Effects**: Fine-tune the delay, decay, and wet-dry mix to get the perfect reverb sound _(coming soon)_.
+- **Reverb Effects**: Fine-tune the delay, decay, and wet-dry mix to get the perfect reverb sound.
 - **WebAssembly Powered**: Utilizes WebAssembly (ffmpeg.wasm) to process and transcode audio files directly in the browser.
 - **Client-Side Processing**: All processing is done on the client-side, ensuring no server interactions are needed.

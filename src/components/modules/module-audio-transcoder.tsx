@@ -43,7 +43,6 @@ type SliderFieldsDefinition = {
   label: ReactNode;
   labelAppendix?: ReactNode;
   description?: ReactNode;
-  notAvailable?: boolean;
   separatorAfter?: boolean;
 };
 
@@ -60,11 +59,11 @@ export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
   const onSubmit = (values: InferredFormSchema) => {
     ffmpegContext.process({
       tempo: values.speed,
-      // reverb: {
-      //   delay: values.reverbDelay,
-      //   decay: values.reverbDecayFactor,
-      //   wet: values.reverbWetDryMix,
-      // },
+      reverb: {
+        delay: values.reverbDelay,
+        decay: values.reverbDecayFactor,
+        wet: values.reverbWetDryMix,
+      },
     });
   };
 
@@ -97,34 +96,15 @@ export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
         />
         <Separator />
         {SLIDER_FIELDS.map(
-          ({
-            name,
-            labelAppendix,
-            notAvailable,
-            separatorAfter,
-            ...sliderFieldItemProps
-          }) => (
+          ({ name, separatorAfter, ...sliderFieldItemProps }) => (
             <>
               <FormField
                 key={name}
                 control={form.control}
                 name={name}
-                disabled={notAvailable}
                 render={({ field }) => (
                   <FormSliderFieldItem<InferredFormSchema>
                     controllerRenderProps={field}
-                    labelAppendix={
-                      notAvailable ? (
-                        <>
-                          {labelAppendix}
-                          <Badge variant='secondary' className='ml-2'>
-                            Not available (yet)
-                          </Badge>
-                        </>
-                      ) : (
-                        labelAppendix
-                      )
-                    }
                     {...sliderFieldItemProps}
                   />
                 )}
@@ -184,7 +164,6 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
         <b>Higher values create a more pronounced and lingering echo.</b>
       </>
     ),
-    notAvailable: true,
   },
   {
     name: 'reverbDecayFactor',
@@ -200,7 +179,6 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
         </b>
       </>
     ),
-    notAvailable: true,
   },
   {
     name: 'reverbWetDryMix',
@@ -217,6 +195,5 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
         </b>
       </>
     ),
-    notAvailable: true,
   },
 ];
