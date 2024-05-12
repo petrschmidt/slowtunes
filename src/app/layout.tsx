@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans';
 import './globals.css';
 import { Toaster } from '@/components/ui/shadcn/toaster';
 import Script from 'next/script';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'SlowTunes — Slowed & Reverb Music Generator',
@@ -24,8 +25,10 @@ export default function RootLayout({
           />
         )}
       <body>
-        {children}
-        <Toaster />
+        <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
