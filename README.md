@@ -6,6 +6,8 @@
 
 SlowTunes is an intuitive app designed to effortlessly generate slowed and reverb music. Whether you want to create a chill, slowed-down version of your favorite song or add a lush reverb effect, SlowTunes has got you covered. Using WebAssembly (ffmpeg.wasm), all audio processing is done directly in the browser on the client-side, so there's no need for server interactions.
 
+**Demo:** https://slowtunes.dellos.io/
+
 ## Features
 
 - **Easy Upload**: Upload your audio files with ease.
