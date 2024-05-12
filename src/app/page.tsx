@@ -16,16 +16,19 @@ import { ReactNode, useContext, useEffect } from 'react';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/shadcn/use-toast';
 import { FFmpegInitAlert } from '@/components/ffmpeg-init-alert';
+import NoSSRWrapper from '@/components/no-ssr-wrapper';
 
 export default function Home() {
   return (
-    <FFmpegContextProvider>
-      <main className='flex min-h-screen w-full justify-center bg-gradient-to-tr from-indigo-50 via-white to-cyan-100 md:items-center'>
-        <div className='p-2 md:p-8'>
-          <ModuleWrapper />
-        </div>
-      </main>
-    </FFmpegContextProvider>
+    <NoSSRWrapper>
+      <FFmpegContextProvider>
+        <main className='flex min-h-screen w-full justify-center bg-gradient-to-tr from-indigo-50 via-white to-cyan-100 md:items-center'>
+          <div className='p-2 md:p-8'>
+            <ModuleWrapper />
+          </div>
+        </main>
+      </FFmpegContextProvider>
+    </NoSSRWrapper>
   );
 }
 
