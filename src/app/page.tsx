@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -6,8 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { AudioTransformerForm } from '@/components/audio-transformer-form';
+import { useRef } from 'react';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const onSubmit = () => formRef.current?.submit();
+
   return (
     <main className='flex min-h-screen items-center'>
       <div className='flex-1 space-y-4 p-8 pt-6'>
@@ -19,8 +27,14 @@ export default function Home() {
                 Generate slowed and reverb music with ease
               </CardDescription>
             </CardHeader>
-            <CardContent></CardContent>
-            <CardFooter>Test</CardFooter>
+            <CardContent>
+              <AudioTransformerForm />
+            </CardContent>
+            <CardFooter>
+              <Button type='submit' onSubmit={onSubmit}>
+                Generate
+              </Button>
+            </CardFooter>
           </Card>
         </div>
       </div>
