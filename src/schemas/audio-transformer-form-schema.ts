@@ -9,10 +9,10 @@ export type AudioTransformerSliderFields = {
 
 export const AUDIO_TRANSFORMER_FIELD_CONFIG: AudioTransformerSliderFields = {
   slowdown: {
-    type: SliderValueType.Multiplier,
-    min: 0.2,
-    max: 1.0,
-    step: 0.05,
+    type: SliderValueType.Percent,
+    min: 20,
+    max: 100,
+    step: 5,
   },
   reverb: {
     delay: {

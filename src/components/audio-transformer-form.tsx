@@ -23,7 +23,7 @@ import { SliderConfig } from '@/types/form';
 
 const DEFAULT_VALUES = {
   applySlowdown: true,
-  slowdown: 0.85,
+  slowdown: 85,
   applyReverb: true,
   reverbDelay: 250,
   reverbDecayFactor: 20,
@@ -86,7 +86,8 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
   {
     name: 'slowdown',
     sliderConfig: AUDIO_TRANSFORMER_FIELD_CONFIG.slowdown,
-    label: 'Slowdown Multiplier',
+    label: 'Slowdown',
+    labelAppendix: '(in %)',
     description: (
       <>
         This value determines the rate of slowing down a song.{' '}
