@@ -20,6 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { forwardRef, ReactNode } from 'react';
 import { FormSliderFieldItem } from '@/components/form-slider-field-item';
 import { SliderConfig } from '@/types/form';
+import { Button } from '@/components/ui/button';
 
 const DEFAULT_VALUES = {
   applySlowdown: true,
@@ -46,9 +47,17 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
     defaultValues: DEFAULT_VALUES,
   });
 
+  const onSubmit = (values: InferredFormSchema) => {
+    console.log(values);
+  };
+
   return (
     <Form {...form}>
-      <form ref={ref} className='flex flex-col gap-y-6'>
+      <form
+        ref={ref}
+        className='flex flex-col gap-y-6'
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           name='file'
           render={({ field }) => (
@@ -75,6 +84,14 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
             )}
           />
         ))}
+        <div className='flex gap-x-2'>
+          <Button type='submit' className='w-full'>
+            Submit
+          </Button>
+          <Button type='button' className='w-3/12' variant='outline'>
+            Reset
+          </Button>
+        </div>
       </form>
     </Form>
   );
