@@ -23,7 +23,6 @@ import { SliderConfig } from '@/types/form';
 import { Button } from '@/components/ui/shadcn/button';
 import { Separator } from '@/components/ui/shadcn/separator';
 import { FFmpegContext } from '@/contexts/ffmpeg-context';
-import { Badge } from '@/components/ui/shadcn/badge';
 import { ButtonWithLoader } from '@/components/ui/button-with-loader';
 
 const DEFAULT_VALUES = {
