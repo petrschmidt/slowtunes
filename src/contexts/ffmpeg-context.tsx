@@ -12,6 +12,7 @@ import { useToast } from '@/components/ui/shadcn/use-toast';
 import {
   ffComposeFilterComplex,
   FFComposeFilterComplexParams,
+  FFMPEG_URL_BASE_URL,
 } from '@/lib/ffmpeg-utils';
 
 export type FFmpegContextProviderProps = {
@@ -41,11 +42,11 @@ export const FFmpegContextProvider = ({
 
     await ffmpeg.load({
       coreURL: await toBlobURL(
-        `/ffmpeg-0.12.6/ffmpeg-core.js`,
+        `${FFMPEG_URL_BASE_URL}/ffmpeg-core.js`,
         'text/javascript',
       ),
       wasmURL: await toBlobURL(
-        `/ffmpeg-0.12.6/ffmpeg-core.wasm`,
+        `${FFMPEG_URL_BASE_URL}/ffmpeg-core.wasm`,
         'application/wasm',
       ),
     });
@@ -66,11 +67,7 @@ export const FFmpegContextProvider = ({
       return;
     }
 
-    // console.log(await getAudioFileFrequency(audioFile));
-
     await ffmpeg.writeFile(audioFile.name, await fetchFile(audioFile));
-
-    // await ffGetAudioFileFrequency(ffmpeg-0.12.6, audioFile.name);
 
     await ffmpeg.exec([
       '-i',
