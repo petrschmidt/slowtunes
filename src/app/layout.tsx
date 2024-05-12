@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import './globals.css';
 import { Toaster } from '@/components/ui/shadcn/toaster';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'SlowTunes — Slowed & Reverb Music Generator',
@@ -15,6 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' className={GeistSans.className}>
+      {process.env.ANALYTICS_SCRIPT_URL && process.env.ANALYTICS_SCRIPT_ID && (
+        <Script
+          src={process.env.ANALYTICS_SCRIPT_URL}
+          data-website-id={process.env.ANALYTICS_SCRIPT_ID}
+        />
+      )}
       <body>
         {children}
         <Toaster />
