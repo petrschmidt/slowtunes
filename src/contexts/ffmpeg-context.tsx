@@ -8,16 +8,11 @@ import {
 } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
-import {
-  ffGetAudioFileFrequency,
-  FFMPEG_URL_BASE_URL,
-} from '@/lib/ffmpeg-utils';
 import { useToast } from '@/components/ui/shadcn/use-toast';
 import {
   ffComposeFilterComplex,
   FFComposeFilterComplexParams,
 } from '@/lib/ffmpeg-utils';
-import { getAudioFileFrequency } from '@/lib/frequency-analyser';
 
 export type FFmpegContextProviderProps = {
   children?: ReactNode;
@@ -46,11 +41,11 @@ export const FFmpegContextProvider = ({
 
     await ffmpeg.load({
       coreURL: await toBlobURL(
-        `ffmpeg-0.12.6/ffmpeg-core.js`,
+        `/ffmpeg-0.12.6/ffmpeg-core.js`,
         'text/javascript',
       ),
       wasmURL: await toBlobURL(
-        `ffmpeg-0.12.6/ffmpeg-core.wasm`,
+        `/ffmpeg-0.12.6/ffmpeg-core.wasm`,
         'application/wasm',
       ),
     });
@@ -58,8 +53,6 @@ export const FFmpegContextProvider = ({
     setLoaded(true);
     setIsLoading(false);
   };
-
-  console.log(fileInputRef);
 
   const transcode = async ({ tempo, reverb }: FFComposeFilterComplexParams) => {
     const ffmpeg = ffmpegRef.current;
