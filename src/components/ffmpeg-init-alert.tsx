@@ -18,7 +18,7 @@ export const FFmpegInitAlert = () => {
       <PackagePlus className='h-4 w-4' />
       <AlertTitle>First, initialize FFmpeg library</AlertTitle>
       <AlertDescription>
-        FFmpeg library is required to enable the app's functionality.
+        FFmpeg library is required to enable the app&apos;s functionality.
         <br />
         <ButtonWithLoader
           type='button'
