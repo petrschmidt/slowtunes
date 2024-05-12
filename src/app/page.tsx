@@ -4,28 +4,69 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { AudioTransformerForm } from '@/components/audio-transformer-form';
+} from '@/components/ui/shadcn/card';
+import { ModuleAudioTranscoder } from '@/components/modules/module-audio-transcoder';
+import {
+  FFmpegContext,
+  FFmpegContextProvider,
+} from '@/contexts/ffmpeg-context';
+import { ReactNode, useContext, useEffect } from 'react';
+import Image from 'next/image';
+import { useToast } from '@/components/ui/shadcn/use-toast';
+import { FFmpegInitAlert } from '@/components/ffmpeg-init-alert';
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen w-full justify-center bg-gradient-to-tr from-indigo-50 via-white to-cyan-100 md:items-center'>
-      <div className='p-2 md:p-8'>
-        <Card className='max-w-xl bg-white/65 shadow-2xl shadow-black/10 backdrop-blur'>
-          <CardHeader>
-            <CardTitle>SlowTunes</CardTitle>
-            <CardDescription>
-              Generate slowed and reverb music with ease
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <AudioTransformerForm />
-          </CardContent>
-        </Card>
-      </div>
-    </main>
+    <FFmpegContextProvider>
+      <main className='flex min-h-screen w-full justify-center bg-gradient-to-tr from-indigo-50 via-white to-cyan-100 md:items-center'>
+        <div className='p-2 md:p-8'>
+          <ModuleWrapper />
+        </div>
+      </main>
+    </FFmpegContextProvider>
   );
 }
+
+type ModuleWrapperProps = {
+  children?: ReactNode;
+};
+
+const ModuleWrapper = ({ children }: ModuleWrapperProps) => {
+  const ffmpegContext = useContext(FFmpegContext);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (ffmpegContext.loaded) {
+      toast({
+        title: 'FFmpeg Initialized ✅',
+        description:
+          'The FFmpeg library has been successfully initialized; you can now fully use the app!',
+      });
+    }
+  }, [ffmpegContext.loaded]);
+
+  return (
+    <Card className='max-w-2xl bg-white/65 shadow-2xl shadow-black/10 backdrop-blur'>
+      <CardHeader>
+        <CardTitle>
+          <Image
+            className='pb-2'
+            src='/slowtunes-logo.svg'
+            alt='SlowTunes Logo'
+            width={160}
+            height={29}
+          />
+        </CardTitle>
+        <CardDescription>
+          Generate slowed and reverb music with ease
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <FFmpegInitAlert />
+        <ModuleAudioTranscoder />
+      </CardContent>
+    </Card>
+  );
+};
