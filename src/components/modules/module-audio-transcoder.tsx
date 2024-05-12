@@ -59,11 +59,11 @@ export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
   const onSubmit = (values: InferredFormSchema) => {
     ffmpegContext.transcode({
       tempo: values.speed,
-      reverb: {
-        delay: values.reverbDelay,
-        decay: values.reverbDecayFactor,
-        wet: values.reverbWetDryMix,
-      },
+      // reverb: {
+      //   delay: values.reverbDelay,
+      //   decay: values.reverbDecayFactor,
+      //   wet: values.reverbWetDryMix,
+      // },
     });
   };
 
