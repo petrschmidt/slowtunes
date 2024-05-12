@@ -23,6 +23,7 @@ import { SliderConfig } from '@/types/form';
 import { Button } from '@/components/ui/shadcn/button';
 import { Separator } from '@/components/ui/shadcn/separator';
 import { FFmpegContext } from '@/contexts/ffmpeg-context';
+import { Badge } from '@/components/ui/shadcn/badge';
 
 const DEFAULT_VALUES = {
   file: undefined,
@@ -41,6 +42,8 @@ type SliderFieldsDefinition = {
   label: ReactNode;
   labelAppendix?: ReactNode;
   description?: ReactNode;
+  notAvailable?: boolean;
+  separatorAfter?: boolean;
 };
 
 export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
@@ -74,7 +77,7 @@ export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
         <FormField
           name='file'
           render={({ field: { value: _, onChange, ...fieldProps } }) => (
-            <FormItem className=''>
+            <FormItem>
               <FormLabel>Audio File</FormLabel>
               <FormControl>
                 <Input
@@ -92,19 +95,43 @@ export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
           )}
         />
         <Separator />
-        {SLIDER_FIELDS.map(({ name, ...sliderFieldItemProps }) => (
-          <FormField
-            key={name}
-            control={form.control}
-            name={name}
-            render={({ field }) => (
-              <FormSliderFieldItem<InferredFormSchema>
-                controllerRenderProps={field}
-                {...sliderFieldItemProps}
+        {SLIDER_FIELDS.map(
+          ({
+            name,
+            labelAppendix,
+            notAvailable,
+            separatorAfter,
+            ...sliderFieldItemProps
+          }) => (
+            <>
+              <FormField
+                key={name}
+                control={form.control}
+                name={name}
+                disabled={notAvailable}
+                render={({ field }) => (
+                  <FormSliderFieldItem<InferredFormSchema>
+                    controllerRenderProps={field}
+                    labelAppendix={
+                      notAvailable ? (
+                        <>
+                          {labelAppendix}
+                          <Badge variant='secondary' className='ml-2'>
+                            Not available (yet)
+                          </Badge>
+                        </>
+                      ) : (
+                        labelAppendix
+                      )
+                    }
+                    {...sliderFieldItemProps}
+                  />
+                )}
               />
-            )}
-          />
-        ))}
+              {separatorAfter && <Separator />}
+            </>
+          ),
+        )}
         <div className='flex flex-col gap-y-2 sm:flex-row sm:gap-x-2 sm:gap-y-0'>
           <Button
             type='button'
@@ -135,31 +162,33 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
     name: 'speed',
     sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.speed,
     label: 'Speed',
-    labelAppendix: '(in %)',
+    labelAppendix: '(%)',
     description: (
       <>
         This value determines the rate of slowing down a song.{' '}
         <b>The lower the value, the slower the song.</b>
       </>
     ),
+    separatorAfter: true,
   },
   {
     name: 'reverbDelay',
     sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.reverb.delay,
     label: 'Reverb — Delay',
-    labelAppendix: '(in milliseconds)',
+    labelAppendix: '(ms)',
     description: (
       <>
         This value controls the echo and delay effects of a song.{' '}
         <b>Higher values create a more pronounced and lingering echo.</b>
       </>
     ),
+    notAvailable: true,
   },
   {
     name: 'reverbDecayFactor',
     sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.reverb.decayFactor,
     label: 'Reverb — Decay Factor',
-    labelAppendix: '(in %)',
+    labelAppendix: '(%)',
     description: (
       <>
         This value field defines how long the reverb lasts.{' '}
@@ -169,12 +198,13 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
         </b>
       </>
     ),
+    notAvailable: true,
   },
   {
     name: 'reverbWetDryMix',
     sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.reverb.wetDryMix,
     label: 'Reverb — Wet-Dry Mix',
-    labelAppendix: '(in %)',
+    labelAppendix: '(%)',
     description: (
       <>
         The value adjusts the balance between the reverb effect and the original
@@ -185,5 +215,6 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
         </b>
       </>
     ),
+    notAvailable: true,
   },
 ];

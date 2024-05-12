@@ -44,7 +44,7 @@ export const FormSliderFieldItem = <T extends FieldValues>({
           }}
         />
         <Slider
-          className='py-4 sm:py-0'
+          className='py-4 data-[disabled]:opacity-50 sm:py-0'
           {...sliderConfig}
           {...controllerRenderProps}
           value={[controllerRenderProps.value]}

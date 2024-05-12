@@ -73,13 +73,13 @@ export const AUDIO_TRANSFORMER_FORM_SCHEMA = z.object({
   reverbDelay: zodSliderValidator(
     AUDIO_TRANSCODER_FIELD_CONFIG.reverb.delay,
     'Reverb Delay',
-  ),
+  ).optional(),
   reverbDecayFactor: zodSliderValidator(
     AUDIO_TRANSCODER_FIELD_CONFIG.reverb.decayFactor,
     'Reverb Decay Factor',
-  ),
+  ).optional(),
   reverbWetDryMix: zodSliderValidator(
     AUDIO_TRANSCODER_FIELD_CONFIG.reverb.wetDryMix,
     'Wet-Dry Mix',
-  ),
+  ).optional(),
 });
