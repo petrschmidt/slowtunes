@@ -11,7 +11,7 @@ import { FFmpegContext } from '@/contexts/ffmpeg-context';
 export const FFmpegInitAlert = () => {
   const ffmpegContext = useContext(FFmpegContext);
 
-  if (ffmpegContext.loaded) return null;
+  if (ffmpegContext.initialized) return null;
 
   return (
     <Alert className='mb-6'>
@@ -23,11 +23,13 @@ export const FFmpegInitAlert = () => {
         <ButtonWithLoader
           type='button'
           className='mt-3'
-          onClick={ffmpegContext.load}
-          disabled={ffmpegContext.isLoading}
-          loading={ffmpegContext.isLoading}
+          onClick={ffmpegContext.init}
+          disabled={ffmpegContext.isInitializing}
+          loading={ffmpegContext.isInitializing}
         >
-          Initialize FFmpeg
+          {ffmpegContext.isInitializing
+            ? 'Initializing...'
+            : 'Initialize FFmpeg'}
         </ButtonWithLoader>
       </AlertDescription>
     </Alert>

@@ -41,14 +41,14 @@ const ModuleWrapper = ({ children }: ModuleWrapperProps) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (ffmpegContext.loaded) {
+    if (ffmpegContext.initialized) {
       toast({
         title: 'FFmpeg Initialized ✅',
         description:
           'The FFmpeg library has been successfully initialized; you can now fully use the app!',
       });
     }
-  }, [ffmpegContext.loaded, toast]);
+  }, [ffmpegContext.initialized, toast]);
 
   return (
     <Card className='max-w-2xl bg-white/65 shadow-2xl shadow-black/10 backdrop-blur'>

@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/shadcn/button';
 import { Separator } from '@/components/ui/shadcn/separator';
 import { FFmpegContext } from '@/contexts/ffmpeg-context';
 import { Badge } from '@/components/ui/shadcn/badge';
+import { ButtonWithLoader } from '@/components/ui/button-with-loader';
 
 const DEFAULT_VALUES = {
   file: undefined,
@@ -51,13 +52,13 @@ export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
   const form = useForm<InferredFormSchema>({
     resolver: zodResolver(AUDIO_TRANSFORMER_FORM_SCHEMA),
     defaultValues: DEFAULT_VALUES,
-    disabled: !ffmpegContext.loaded,
+    disabled: !ffmpegContext.initialized,
     mode: 'onTouched',
     reValidateMode: 'onBlur',
   });
 
   const onSubmit = (values: InferredFormSchema) => {
-    ffmpegContext.transcode({
+    ffmpegContext.process({
       tempo: values.speed,
       // reverb: {
       //   delay: values.reverbDelay,
@@ -138,17 +139,18 @@ export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
             className='sm:w-3/12'
             variant='outline'
             onClick={() => form.reset()}
-            disabled={!ffmpegContext.loaded}
+            disabled={!ffmpegContext.initialized || ffmpegContext.isProcessing}
           >
             Reset
           </Button>
-          <Button
+          <ButtonWithLoader
             type='submit'
             className='w-full'
-            disabled={!ffmpegContext.loaded}
+            loading={ffmpegContext.isProcessing}
+            disabled={!ffmpegContext.initialized || ffmpegContext.isProcessing}
           >
-            Generate
-          </Button>
+            {ffmpegContext.isProcessing ? 'Generating...' : 'Generate'}
+          </ButtonWithLoader>
         </div>
       </form>
     </Form>

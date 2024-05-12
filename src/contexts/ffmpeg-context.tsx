@@ -24,16 +24,16 @@ export const FFmpegContextProvider = ({
 }: FFmpegContextProviderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [loaded, setLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const ffmpegRef = useRef(new FFmpeg());
-  const videoRef = useRef<HTMLVideoElement>(null);
   const { toast } = useToast();
 
   const registerFileInput = () => ({ ref: fileInputRef });
 
-  const load = async () => {
-    setIsLoading(true);
+  const init = async () => {
+    setIsInitializing(true);
 
     const ffmpeg = ffmpegRef.current;
     ffmpeg.on('log', ({ message }) => {
@@ -51,11 +51,13 @@ export const FFmpegContextProvider = ({
       ),
     });
 
-    setLoaded(true);
-    setIsLoading(false);
+    setInitialized(true);
+    setIsInitializing(false);
   };
 
-  const transcode = async ({ tempo, reverb }: FFComposeFilterComplexParams) => {
+  const process = async ({ tempo, reverb }: FFComposeFilterComplexParams) => {
+    setIsProcessing(true);
+
     const ffmpeg = ffmpegRef.current;
     const audioFile = fileInputRef.current?.files?.[0];
 
@@ -64,6 +66,8 @@ export const FFmpegContextProvider = ({
         title: 'An error occurred',
         description: 'Audio file missing or invalid',
       });
+      setIsProcessing(false);
+
       return;
     }
 
@@ -91,11 +95,20 @@ export const FFmpegContextProvider = ({
       URL.revokeObjectURL(link.href);
       link.parentNode?.removeChild(link);
     }, 0);
+
+    setIsProcessing(false);
   };
 
   return (
     <FFmpegContext.Provider
-      value={{ loaded, isLoading, load, registerFileInput, transcode }}
+      value={{
+        initialized,
+        isInitializing,
+        init,
+        registerFileInput,
+        process,
+        isProcessing,
+      }}
     >
       {children}
     </FFmpegContext.Provider>
@@ -103,17 +116,19 @@ export const FFmpegContextProvider = ({
 };
 
 export type FFmpegContextProps = {
-  loaded: boolean;
-  isLoading: boolean;
-  load: () => void;
+  initialized: boolean;
+  isInitializing: boolean;
+  init: () => void;
   registerFileInput: () => { ref: RefObject<HTMLInputElement> };
-  transcode: (params: FFComposeFilterComplexParams) => void;
+  process: (params: FFComposeFilterComplexParams) => void;
+  isProcessing: boolean;
 };
 
 export const FFmpegContext = createContext<FFmpegContextProps>({
-  loaded: false,
-  isLoading: false,
-  load: () => {},
+  initialized: false,
+  isInitializing: false,
+  init: () => {},
   registerFileInput: () => ({ ref: createRef() }),
-  transcode: () => {},
+  process: () => {},
+  isProcessing: false,
 });
