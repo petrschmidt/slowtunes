@@ -30,9 +30,9 @@ const DEFAULT_VALUES = {
   file: undefined,
   speed: 85,
   applyReverb: true,
-  reverbDelay: 250,
-  reverbDecayFactor: 20,
-  reverbWetDryMix: 90,
+  reverbDelay: 80,
+  reverbDecayFactor: 5,
+  reverbWetDryMix: 15,
 };
 
 type InferredFormSchema = z.infer<typeof AUDIO_TRANSFORMER_FORM_SCHEMA>;
