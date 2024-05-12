@@ -10,7 +10,7 @@ export type AudioTranscoderSliderFields = {
 export const AUDIO_TRANSCODER_FIELD_CONFIG: AudioTranscoderSliderFields = {
   speed: {
     type: SliderValueType.Percent,
-    min: 20,
+    min: 50,
     max: 100,
     step: 5,
   },
