@@ -1,48 +1,15 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with
-[`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+# ![slowtunes-logo](https://github.com/petrschmidt/slowtunes/assets/41199113/16441f8a-3249-4d1c-9d74-4da705fba93f)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the
-result.
+SlowTunes is an intuitive app designed to effortlessly generate slowed and reverb music. Whether you want to create a chill, slowed-down version of your favorite song or add a lush reverb effect, SlowTunes has got you covered. Using WebAssembly (ffmpeg.wasm), all audio processing is done directly in the browser on the client-side, so there's no need for server interactions.
 
-You can start editing the page by modifying `app/page.tsx`. The page
-auto-updates as you edit the file.
+## Features
 
-This project uses
-[`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to
-automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out
-[the Next.js GitHub repository](https://github.com/vercel/next.js/) - your
-feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our
-[Next.js deployment documentation](https://nextjs.org/docs/deployment) for more
-details.
+- **Easy Upload**: Upload your audio files with ease.
+- **Adjustable Speed**: Control the rate of slowing down a song with a simple percentage slider.
+- **Reverb Effects**: Fine-tune the delay, decay, and wet-dry mix to get the perfect reverb sound _(coming soon)_.
+- **WebAssembly Powered**: Utilizes WebAssembly (ffmpeg.wasm) to process and transcode audio files directly in the browser.
+- **Client-Side Processing**: All processing is done on the client-side, ensuring no server interactions are needed.
