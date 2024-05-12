@@ -8,24 +8,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/ui/shadcn/form';
+import { Input } from '@/components/ui/shadcn/input';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import {
-  AUDIO_TRANSFORMER_FIELD_CONFIG,
+  AUDIO_TRANSCODER_FIELD_CONFIG,
   AUDIO_TRANSFORMER_FORM_SCHEMA,
-} from '@/schemas/audio-transformer-form-schema';
+} from '@/schemas/audio-transcoder-form-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { forwardRef, ReactNode } from 'react';
-import { FormSliderFieldItem } from '@/components/form-slider-field-item';
+import { forwardRef, ReactNode, useContext } from 'react';
+import { FormSliderFieldItem } from '@/components/form/form-slider-field-item';
 import { SliderConfig } from '@/types/form';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/shadcn/button';
+import { Separator } from '@/components/ui/shadcn/separator';
+import { FFmpegContext } from '@/contexts/ffmpeg-context';
 
 const DEFAULT_VALUES = {
-  applySlowdown: true,
-  slowdown: 85,
+  file: undefined,
+  speed: 85,
   applyReverb: true,
   reverbDelay: 250,
   reverbDecayFactor: 20,
@@ -42,14 +43,25 @@ type SliderFieldsDefinition = {
   description?: ReactNode;
 };
 
-export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
+export const ModuleAudioTranscoder = forwardRef<HTMLFormElement>(({}, ref) => {
+  const ffmpegContext = useContext(FFmpegContext);
   const form = useForm<InferredFormSchema>({
     resolver: zodResolver(AUDIO_TRANSFORMER_FORM_SCHEMA),
     defaultValues: DEFAULT_VALUES,
+    disabled: !ffmpegContext.loaded,
+    mode: 'onTouched',
+    reValidateMode: 'onBlur',
   });
 
   const onSubmit = (values: InferredFormSchema) => {
-    console.log(values);
+    ffmpegContext.transcode({
+      tempo: values.speed,
+      reverb: {
+        delay: values.reverbDelay,
+        decay: values.reverbDecayFactor,
+        wet: values.reverbWetDryMix,
+      },
+    });
   };
 
   return (
@@ -61,14 +73,17 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
       >
         <FormField
           name='file'
-          render={({ field }) => (
-            <FormItem className='[&_*]:hover:cursor-pointer'>
+          render={({ field: { value: _, onChange, ...fieldProps } }) => (
+            <FormItem className=''>
               <FormLabel>Audio File</FormLabel>
               <FormControl>
                 <Input
                   type='file'
-                  className='transition hover:border-primary'
-                  {...field}
+                  className='transition hover:border-primary disabled:hover:border-[inherit]'
+                  accept='audio/*'
+                  {...fieldProps}
+                  {...ffmpegContext.registerFileInput()}
+                  onChange={(e) => onChange(e.target.files?.[0])}
                 />
               </FormControl>
               <FormDescription />
@@ -90,16 +105,21 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
             )}
           />
         ))}
-        <div className='flex gap-x-2'>
+        <div className='flex flex-col gap-y-2 sm:flex-row sm:gap-x-2 sm:gap-y-0'>
           <Button
             type='button'
-            className='w-3/12'
+            className='sm:w-3/12'
             variant='outline'
             onClick={() => form.reset()}
+            disabled={!ffmpegContext.loaded}
           >
             Reset
           </Button>
-          <Button type='submit' className='w-full'>
+          <Button
+            type='submit'
+            className='w-full'
+            disabled={!ffmpegContext.loaded}
+          >
             Generate
           </Button>
         </div>
@@ -108,13 +128,13 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
   );
 });
 
-AudioTransformerForm.displayName = 'AudioTransformerForm';
+ModuleAudioTranscoder.displayName = 'ModuleAudioTranscoder';
 
 const SLIDER_FIELDS: SliderFieldsDefinition[] = [
   {
-    name: 'slowdown',
-    sliderConfig: AUDIO_TRANSFORMER_FIELD_CONFIG.slowdown,
-    label: 'Slowdown',
+    name: 'speed',
+    sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.speed,
+    label: 'Speed',
     labelAppendix: '(in %)',
     description: (
       <>
@@ -125,7 +145,7 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
   },
   {
     name: 'reverbDelay',
-    sliderConfig: AUDIO_TRANSFORMER_FIELD_CONFIG.reverb.delay,
+    sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.reverb.delay,
     label: 'Reverb — Delay',
     labelAppendix: '(in milliseconds)',
     description: (
@@ -137,7 +157,7 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
   },
   {
     name: 'reverbDecayFactor',
-    sliderConfig: AUDIO_TRANSFORMER_FIELD_CONFIG.reverb.decayFactor,
+    sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.reverb.decayFactor,
     label: 'Reverb — Decay Factor',
     labelAppendix: '(in %)',
     description: (
@@ -152,7 +172,7 @@ const SLIDER_FIELDS: SliderFieldsDefinition[] = [
   },
   {
     name: 'reverbWetDryMix',
-    sliderConfig: AUDIO_TRANSFORMER_FIELD_CONFIG.reverb.wetDryMix,
+    sliderConfig: AUDIO_TRANSCODER_FIELD_CONFIG.reverb.wetDryMix,
     label: 'Reverb — Wet-Dry Mix',
     labelAppendix: '(in %)',
     description: (
