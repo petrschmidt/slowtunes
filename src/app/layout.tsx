@@ -16,12 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' className={GeistSans.className}>
-      {process.env.ANALYTICS_SCRIPT_URL && process.env.ANALYTICS_SCRIPT_ID && (
-        <Script
-          src={process.env.ANALYTICS_SCRIPT_URL}
-          data-website-id={process.env.ANALYTICS_SCRIPT_ID}
-        />
-      )}
+      {process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_URL &&
+        process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_ID && (
+          <Script
+            src={process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_URL}
+            data-website-id={process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT_ID}
+          />
+        )}
       <body>
         {children}
         <Toaster />
