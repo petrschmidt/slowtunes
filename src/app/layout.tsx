@@ -25,7 +25,7 @@ export default function RootLayout({
           />
         )}
       <body>
-        <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
+        <ThemeProvider attribute='class' enableSystem>
           {children}
           <Toaster />
         </ThemeProvider>
