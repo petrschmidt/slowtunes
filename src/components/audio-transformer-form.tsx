@@ -87,11 +87,16 @@ export const AudioTransformerForm = forwardRef<HTMLFormElement>(({}, ref) => {
           />
         ))}
         <div className='flex gap-x-2'>
-          <Button type='submit' className='w-full'>
-            Submit
-          </Button>
-          <Button type='button' className='w-3/12' variant='outline'>
+          <Button
+            type='button'
+            className='w-3/12'
+            variant='outline'
+            onClick={() => form.reset()}
+          >
             Reset
+          </Button>
+          <Button type='submit' className='w-full'>
+            Generate
           </Button>
         </div>
       </form>
