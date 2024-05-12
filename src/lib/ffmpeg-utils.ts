@@ -15,4 +15,4 @@ export const ffComposeFilterComplex = ({
   reverb,
 }: FFComposeFilterComplexParams) =>
   // `[0:a]atempo=${tempo},adelay=${reverb.delay}|${reverb.delay},areverb=${reverb.decay}:0:0:0:0:0:${reverb.wet}:${100 - reverb.wet}`;
-  `[0:a]atempo=${tempo},asetrate=44100*${tempo},areverse,aecho=0.8:0.88:${reverb.delay}|${reverb.delay}:${reverb.decay}|${reverb.decay},areverse,volume=${reverb.wet}/100`;
+  `[0:a]atempo=${tempo},asetrate=44100*${tempo},areverse,aecho=0.8:0.88:${reverb.delay}|${reverb.delay}:${reverb.decay}|${reverb.decay},areverse`;
