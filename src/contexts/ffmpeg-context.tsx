@@ -61,7 +61,7 @@ export const FFmpegContextProvider = ({
 
     if (!audioFile) {
       toast({
-        title: 'An error occured',
+        title: 'An error occurred',
         description: 'Audio file missing or invalid',
       });
       return;
