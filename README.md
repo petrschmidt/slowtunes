@@ -15,3 +15,7 @@ SlowTunes is an intuitive app designed to effortlessly generate slowed and rever
 - **Reverb Effects**: Fine-tune the delay, decay, and wet-dry mix to get the perfect reverb sound.
 - **WebAssembly Powered**: Utilizes WebAssembly (ffmpeg.wasm) to process and transcode audio files directly in the browser.
 - **Client-Side Processing**: All processing is done on the client-side, ensuring no server interactions are needed.
+
+
+
+![Screenshot 2024-05-13 at 18 34 31](https://github.com/petrschmidt/slowtunes/assets/41199113/09dd3bbd-2519-4fef-8ca3-1cf3104f938a)
